@@ -143,8 +143,7 @@
   (cube-root-iter 1.0 x))
 
 (comment
-  (cube-root 27)
-  ,)
+  (cube-root 27),)
 
 ;; Exercise 1.9 Each of the following two procedures defines a method for adding two positive integers in terms of the procedures
 ;; inc, which increments its argument by 1, and dec, which decrements its argument by 1.
@@ -234,14 +233,14 @@
 ;; (A 2 4)
 ;; 65536
 
- (defn A [x y]
-   (cond (= y 0) 0
-         (= x 0) (* 2 y)
-         (= y 1) 2
-         :else (A (- x 1) (A x (- y 1)))))
- (defn f [n] (A 0 n))
- (defn g [n] (A 1 n))
- (defn h [n] (A 2 n))
+(defn A [x y]
+  (cond (= y 0) 0
+        (= x 0) (* 2 y)
+        (= y 1) 2
+        :else (A (- x 1) (A x (- y 1)))))
+(defn f [n] (A 0 n))
+(defn g [n] (A 1 n))
+(defn h [n] (A 2 n))
 (comment
   (A 1 10)
   (A 2 4)
@@ -249,8 +248,30 @@
   (f 10)
   (g 10)
   (h 4)
-  (k 10)
-  ,)
+  (k 10),)
 ;; f computes 2n, g computes 2^n, h computes 2^(2^n)
+
+;; Exercise 1.11 A function f is defined by the rule that f(n) = n if n < 3 and f(n) = f(n - 1) + 2f(n - 2) + 3f(n - 3) if n >= 3.
+;; Write a procedure that computes f by means of a recursive process. Write a procedure that computes f by means of an iterative process.
+(defn f [n]
+  (if (< n 3)
+    n
+    (+ (f (- n 1)) (* 2 (f (- n 2))) (* 3 (f (- n 3))))))
+
+(comment
+  (f 10))
+
+(defn f-iter [n a b c]
+  (cond (= n 0) a
+        (= n 1) b
+        (= n 2) c
+  :else (recur (dec n) b c (+ c (* 2 b) (* 3 a)))))
+
+(defn f [n]
+  (f-iter n 0 1 2))
+
+(comment
+  (f 10)
+  ,)
 
 
